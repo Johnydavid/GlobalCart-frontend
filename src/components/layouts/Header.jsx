@@ -8,7 +8,7 @@ const Header = () => {
       <div className="col-12 col-md-3">
         <div className="navbar-brand">
             
-          <img width="75px" src="./images/logo.png" alt="GlobalCart"/ >
+          <img width="75px" src="/images/logo.png" alt="GlobalCart" />
         </div>
       </div>
 

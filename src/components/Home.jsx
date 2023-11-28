@@ -1,16 +1,35 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import MetaData from "./layouts/MetaData";
 import { getProducts } from "../actions/productsActions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "./layouts/Loader";
+import Product from "./product/Product";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Pagination from "react-js-pagination";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { products, loading } = useSelector((state) => state.productsState);
+  const { products, loading, error, productsCount, resPerPage } = useSelector((state) => state.productsState);
+  const[currentPage, setCurrentPage] = useState(1)
+
+
+  const setCurrentPageNo = (pageNo)=>{
+
+    setCurrentPage(pageNo)
+
+  }
 
   useEffect(() => {
+    if(error){
+     return toast.error(error,{
+        position: toast.POSITION.BOTTOM_CENTER
+      })
+
+    }
+ 
     dispatch(getProducts);
-  },[] );
+  },[error, dispatch] );
   return (
     <Fragment>
       {loading? <Loader/>:   
@@ -24,39 +43,44 @@ const Home = () => {
          
           
             return(
-            
+              <Product  key={product._id} product={product}/>          
 
             
-            <div className="col-sm-12 col-md-6 col-lg-3 my-3">
-            <div className="card p-3 rounded">
-              <img
-                className="card-img-top mx-auto"
-                src={product.images[0].image}
-                alt={product.name}
-              />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">
-                  <a href="/#">{product.name}</a>
-                </h5>
-                <div className="ratings mt-auto">
-                  <div className="rating-outer">
-                    <div className="rating-inner" style={{width:`${product.ratings / 5 * 100}%`}}></div>
-                  </div>
-                  <span id="no_of_reviews">{product.numOfReviews} Review(s)</span>
-                </div>
-                <p className="card-text">${product.price}</p>
-                <a href="/#" id="view_btn" className="btn btn-block">
-                  View Details
-                </a>
-              </div>
-            </div>
-          </div>
+           
           )
 
               
             })}
         </div>
       </section>
+
+      {productsCount>0 ?
+      <div className="d-flex justify-content-center mt-5">
+        <Pagination
+
+        activePage={currentPage}
+
+        onChange={setCurrentPageNo}
+
+        totalItemsCount={productsCount}
+
+        itemsCountPerPage={resPerPage}
+
+        nextPageText={"Next"}
+
+        firstPageText={"First"}
+
+        lastPageText={"Last"}
+
+        itemClass={'page-item'}
+
+        linkClass={"page-link"}
+
+        
+        />
+
+      </div>
+     : null }
     </Fragment>
     }
     </Fragment>
