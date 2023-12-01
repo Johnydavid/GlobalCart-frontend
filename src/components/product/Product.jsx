@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom'
 const Product = ({product}) => {
   return (
 
-         <div className="col-sm-12 col-md-6 col-lg-3 my-3">
-            <div className="card p-3 rounded">
+         <div className="col-sm-12 col-md-6 col-lg-3 my-5">
+            <div className="card p-4 rounded">
               <img
                 className="card-img-top mx-auto"
                 src={product.images[0].image}
                 alt={product.name}
+                width={50}
               />
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title">
