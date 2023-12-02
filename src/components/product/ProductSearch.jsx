@@ -9,11 +9,17 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Pagination from "react-js-pagination";
 import { useParams } from "react-router-dom";
+import Slider from "rc-slider";
+import 'rc-slider/assets/index.css';
+import Tooltip from "rc-tooltip";
+import 'rc-tooltip/assets/bootstrap.css'
 
 const ProductSearch = () => {
   const dispatch = useDispatch();
   const { products, loading, error, productsCount, resPerPage } = useSelector((state) => state.productsState);
   const[currentPage, setCurrentPage] = useState(1)
+  const[price,setPrice] = useState([1,1000])
+  const[priceChanged, setPriceChanged] = useState(price);
 
   const {keyword} = useParams()
 
@@ -32,9 +38,9 @@ const ProductSearch = () => {
 
     };
  
-     dispatch(getProducts(keyword, currentPage));
+     dispatch(getProducts(keyword,priceChanged, currentPage));
 
-  },[error, dispatch, currentPage, keyword ] );
+  },[error, dispatch, currentPage, keyword, priceChanged ] );
 
 
   return (
@@ -46,18 +52,51 @@ const ProductSearch = () => {
 
       <section id="products" className="container mt-5">
         <div className="row">
-          {products && products.map(( product) => {
-         
-          
-            return(
-              <Product  key={product._id} product={product}/>          
+          <div className="col-6 col-md-3 mb-3 mt-5">
+            <div className="px-3" onMouseUp={() => setPriceChanged(price)}>
+              <Slider
+              range = {true}
+              marks={
+                {
+                  1: "$1",
+                  1000: "$1000"
+              }
+            }
+            min={1}
+            max={1000}
+            defaultValue={price}
+            onChange={(price)=>{
+            setPrice(price)
+            }}
+            handleRender={
+              renderProps =>{
+                return (
+                  <Tooltip overlay={`$${renderProps.props['aria-valuenow']}`}>
+                    <div   {...renderProps.props}>
+                    
+                    </div>
 
-            
-           
-          )
+                  </Tooltip>
+                )
+              }
+            }
+               />
+            </div>
+          </div>
+          <div className="col-6 col-md-9">
+            <div className="row">
+            {products && products.map(( product) => {       
+                   return(
+           <Product col={5} key={product._id} product={product}/>        
+                 
+       )           
+         })}
 
-              
-            })}
+            </div>
+            </div>
+
+
+      
         </div>
       </section>
 

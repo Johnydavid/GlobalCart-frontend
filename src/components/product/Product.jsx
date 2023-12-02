@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Product = ({product}) => {
+const Product = ({product, col}) => {
   return (
 
-         <div className="col-sm-12 col-md-6 col-lg-3 my-5">
+         <div className={`col-sm-12 col-md-6 col-lg-${col} my-5`}>
             <div className="card p-4 rounded">
               <img
                 className="card-img-top mx-auto"

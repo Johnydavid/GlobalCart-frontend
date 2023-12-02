@@ -28,7 +28,7 @@ const Home = () => {
 
     };
  
-     dispatch(getProducts(null, currentPage));
+     dispatch(getProducts(null, null, currentPage));
 
   },[error, dispatch, currentPage ] );
 
@@ -38,15 +38,15 @@ const Home = () => {
       {loading? <Loader/>:   
     <Fragment>
       <MetaData title={"Latest Products"} />
-      <h1 id="products_heading">Latest Products</h1>
+      <h1 id="products_heading" className="m-5 px-5">Latest Products</h1>
 
-      <section id="products" className="container mt-5 m-5">
+      <section id="products" className="container mt-5 m-5 px-5">
         <div className="row">
           {products && products.map(( product) => {
          
           
             return(
-              <Product  key={product._id} product={product}/>          
+              <Product col={3} key={product._id} product={product}/>          
 
             
            
