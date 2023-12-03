@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import MetaData from "./layouts/MetaData";
-import { getProducts } from "../actions/productsActions";
+import { getProducts } from "../actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "./layouts/Loader";
 import Product from "./product/Product";
@@ -28,7 +28,7 @@ const Home = () => {
 
     };
  
-     dispatch(getProducts(null, null, currentPage));
+     dispatch(getProducts(null, null, null, null, currentPage));
 
   },[error, dispatch, currentPage ] );
 
